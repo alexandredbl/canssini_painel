@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+ 
+<head>
+    <title>Dashboard CANssini</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png') }}">
+</head>
+ 
+<body>
+    <div id="bar">
+        <a id="logo" href="/">
+                <img src="{{ url_for('static', filename='logo.png') }}">
+        </a>
+        <!--<div id="status">
+            <div id="light1" class="light on"></div>
+            <div id="light2" class="light off"></div>
+            <div id="light3" class="light off"></div>
+            <div id="light4" class="light on"></div>
+        </div>-->
+        <!--<a id="config" href="/config">
+            <img style="filter:invert();" src="{{ url_for('static', filename='config.png') }}">
+        </a>-->
+    </div>
+ <!-- this section can be replaced by a child document -->  
+{% block body %}
+ 
+<div id="buttons">
+    <button onclick="socket.emit('reboot');">Reiniciar</button>
+    <button onclick="socket.emit('ping');">Ping</button>
+    <button onclick="socket.emit('mode0');">Modo 0</button>
+    <button onclick="socket.emit('mode1');">Modo 1</button>
+    <button onclick="socket.emit('mode2');">Modo 2</button>
+</div>
+
+<div id="graphs">
+    <div><canvas id="temperature_graph"></canvas></div>
+    <div><canvas id="pressure_graph"></canvas></div>
+    <div><canvas id="altitude_graph"></canvas></div>
+</div>
+
+<ul id="console"></div>
+ 
+<script src="{{ url_for('static', filename='chart.js') }}"></script>
+<script src="{{ url_for('static', filename='graphs.js') }}"></script>
+ 
+<script src="{{ url_for('static', filename='socket.io.js') }}"></script>
+<script type="text/javascript" charset="utf-8">
+    var socket = io();
+    socket.on('connect', (data) => {
+        socket.emit('temperature_request');
+        socket.emit('pressure_request');
+        socket.emit('altitude_request');
+        socket.emit("serial_request");
+    });
+    socket.on('temperature', (data) => {
+        updatePTgraph(data,T_graph);
+        setTimeout(() => {socket.emit("temperature_request");}, 1000);
+    });
+    socket.on('pressure', (data) => {
+        updatePTgraph(data,P_graph);
+        setTimeout(() => {socket.emit("pressure_request");}, 1000);
+    });
+    socket.on('altitude', (data) => {
+        updatehgraph(data["h1"],data["h2"],h_graph);
+        setTimeout(() => {socket.emit("altitude_request");}, 1000);
+    });
+    let n_console=0;
+    console_div = document.getElementById("console");
+    function add_to_console(msg) {
+        let li = document.createElement("li");
+        li.innerHTML = msg;
+        if( n_console%2==0 ) {
+            li.style.backgroundColor = "#e9e9ed";
+        }
+        console_div.insertBefore(li,console_div.firstChild);
+        n_console++;
+    }
+    socket.on('serial_read', (data) => {
+        add_to_console(data);
+        socket.emit("serial_request");
+    });
+    socket.on('serial_written', (data) => {
+        add_to_console(data);
+    });
+</script>
+
+{% endblock %}
+
+</body>
+ 
+</html>

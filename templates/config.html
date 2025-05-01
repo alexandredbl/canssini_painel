@@ -1,0 +1,31 @@
+
+{% extends 'index.html' %}
+ 
+{% block body %}
+ 
+<form id="configform">
+    <table>
+        <tr>
+            <td>
+                <label for="frequency">Frequência</label>
+            </td>
+            <td>
+                <input name="frequency" type="number">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="baudrate">Baud Rate</label>
+            </td>
+            <td>
+                <input name="baudrate" type="number">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Atualizar"></td>
+        </tr>
+    </table>
+</form>
+ 
+{% endblock %}

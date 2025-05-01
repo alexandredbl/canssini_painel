@@ -1,0 +1,115 @@
+:root {
+    --bg: #fff;
+    --fg: #222;
+    --c0: #f11;
+    --c1: #1f1;
+    --font: Arial, Helvetica, sans-serif;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#bar {
+    height: 2em;
+    box-shadow: 0 0 4px var(--fg);
+    width: 100%;
+    display: flex;
+    flex-direction: horizontal;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+
+#logo {
+    display: block;
+    width: min-content;
+    height: 100%;
+    padding-left: 0.5em;
+}
+#logo img {
+    height: 100%;
+}
+
+#status {
+    height: 100%;
+}
+.light {
+    width: 2em;
+    height: 100%;
+    clip-path: circle(25% at 50% 50%);
+    display: inline-block;
+    margin-right: -0.5em;
+}
+
+.light.on {
+    background-color: var(--c1);
+}
+.light.off {
+    background-color: var(--c0);
+}
+
+#config {
+    height: 100%;
+    padding-right: 0.5em;
+}
+#config img {
+    height: 100%;
+    scale: 75%;
+}
+
+#buttons {
+    display: flex;
+    width: 90vw;
+    margin: auto;
+}
+#buttons button {
+    flex-grow: 1;
+    margin: 1em;
+    font-size: 1em;
+}
+
+#graphs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+#graphs div {
+    width: 28vw;
+    height: 15vw;
+}
+#graphs canvas {
+    position: relative;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+#console {
+    height: max-content;
+    border: 1px solid var(--fg);
+    margin: 1cm;
+    flex-grow: 1;
+    display: block;
+    list-style: none;
+    overflow-y: auto;
+    padding: 0;
+}
+#console li {
+    padding: 0.2em 1em 0.2em 1em;
+}
+
+#configform {
+    margin: auto;
+    width: fit-content;
+}
